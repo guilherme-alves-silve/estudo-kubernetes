@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: noticias-deployment
+spec:
+  selector:
+    matchLabels:
+      name: noticia-pod
+  template:
+    metadata:
+      labels:
+        name: noticia-pod
+    spec:
+      containers:
+        - name: container-noticias
+          image: gsilveira/noticias
+          #O imagePullPolicy com o valor Never é para que seja possível utilizar as imagens locais
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80

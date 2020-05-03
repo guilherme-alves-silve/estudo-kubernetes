@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: stateful-set-sistema
+spec:
+  serviceName: stateful-set-sistema
+  selector:
+    matchLabels:
+      name: stateful-set-pod-sistema
+  template:
+    metadata:
+      labels:
+        name: stateful-set-pod-sistema
+    spec:
+      containers:
+        - name: container-stateful-set-pod-sistema
+          image: gsilveira/sistema
+          #O imagePullPolicy com o valor Never é para que seja possível utilizar as imagens locais
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+          lifecycle:
+            postStart:
+              exec:
+                command: ["sh", "enviar-mensagem.sh"]
+          volumeMounts:
+            - name: imagens
+              mountPath: /var/www/html/uploads
+            - name: sessoes
+              mountPath: /tmp
+      volumes:
+        - name: imagens
+          persistentVolumeClaim:
+            claimName: persistent-volume-permissao-imagens
+        - name: sessoes
+          persistentVolumeClaim:
+            claimName: persistent-volume-permissao-sessoes

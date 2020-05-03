@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sistema-deployment
+spec:
+  selector:
+    matchLabels:
+      name: sistema-pod
+  template:
+    metadata:
+      labels:
+        name: sistema-pod
+    spec:
+      containers:
+        - name: container-sistema
+          image: gsilveira/sistema
+          #O imagePullPolicy com o valor Never é para que seja possível utilizar as imagens locais
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80

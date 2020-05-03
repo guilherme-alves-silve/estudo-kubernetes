@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: stateful-set-noticia
+spec:
+  serviceName: stateful-set-noticia
+  selector:
+    matchLabels:
+      name: stateful-set-pod-noticia
+  template:
+    metadata:
+      labels:
+        name: stateful-set-pod-noticia
+    spec:
+      containers:
+        - name: container-stateful-set-noticias
+          image: gsilveira/noticias
+          #O imagePullPolicy com o valor Never é para que seja possível utilizar as imagens locais
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80

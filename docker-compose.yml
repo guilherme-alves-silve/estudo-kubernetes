@@ -1,0 +1,37 @@
+version: '3.7'
+services:
+
+  db:
+    image: mysql:5.7
+    container_name: banco_mysql
+    volumes:
+     - ./mysql/:/home
+    ports:
+     - '3306:3306'
+    working_dir: /home
+    environment:
+      MYSQL_DATABASE: 'empresa'
+      MYSQL_PASSWORD: 'q1w2e3r4'
+      MYSQL_ROOT_PASSWORD: 'q1w2e3r4'
+
+  noticias_web:
+    container_name: container-kube-noticias
+    image: jnlucas/noticia-alura:v1
+    volumes:
+      - ./noticias/:/var/www/html
+
+    working_dir: /var/www/html/
+    ports:
+      - "8588:80"
+
+  sistema_web:
+    container_name: container-kube
+    image: jnlucas/noticia-alura:v1
+    volumes:
+      - ./sistema/:/var/www/html
+
+    working_dir: /var/www/html/
+    ports:
+      - "8587:80"
+    depends_on:
+        - db

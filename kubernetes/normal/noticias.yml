@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: noticia
+spec:
+  containers:
+    - name: container-noticia
+      image: gsilveira/noticias
+      ports:
+        - containerPort: 80
+      
